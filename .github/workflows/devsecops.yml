@@ -43,13 +43,13 @@ jobs:
       # 4. Build Docker Container
       - name: Build Container
         run: |
-          docker build -t ousl-student-api:${{ github.sha }} .
+          docker build -t ousl-student-api-lab-3:${{ github.sha }} .
 
       # 5. Aqua Trivy Container Security Scan
       - name: Aqua Security Trivy Scan
         uses: aquasecurity/trivy-action@v0.35.0
         with:
-          image-ref: 'ousl-student-api:${{ github.sha }}'
+          image-ref: 'ousl-student-api-lab-3:${{ github.sha }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -73,12 +73,12 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker tag ousl-student-api:${{ github.sha }} \
-            $ECR_REGISTRY/ousl-student-api:${{ github.sha }}
+          docker tag ousl-student-api-lab-3:${{ github.sha }} \
+            $ECR_REGISTRY/ousl-student-api-lab-3:${{ github.sha }}
 
       # 9. Push Docker Image to ECR
       - name: Push Container Image to ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker push $ECR_REGISTRY/ousl-student-api:${{ github.sha }}
+          docker push $ECR_REGISTRY/ousl-student-api-lab-3:${{ github.sha }}
